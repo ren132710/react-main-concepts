@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Component with JSX Child Callback</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Components and Props
+       * https://reactjs.org/docs/components-and-props.html
+       */
+
+      const numTimes = 10
+
+      //calls the children callback numTimes to produce
+      //a repeated component
+      function Repeat(props) {
+        console.log('Repeat props: ', props)
+        let items = []
+        for (let i = 0; i < props.numTimes; i++) {
+          //props.children is the passed callback function which displays
+          //a div and index number 'i' for each iteration
+          items.push(props.children(i))
+        }
+        return <div>{items}</div>
+      }
+
+      //a custom component can take a callback as props.children
+      function ListOfTenThings(props) {
+        console.log('ListOfTenThings props: ', props)
+        return (
+          //we use open and closing <Repeat> tags here because the component has a child
+          //in this case, we include a callback function as the child
+          <Repeat numTimes={props.numTimes}>
+            {(index) => <div key={index}>This is item {index} in the list</div>}
+          </Repeat>
+        )
+      }
+
+      const element = <ListOfTenThings numTimes={numTimes} />
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<div className="container">{element}</div>)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Forms</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Forms - Handling Multiple Inputs
+       * https://reactjs.org/docs/forms.html
+       *
+       * When you need to handle multiple controlled input elements, you can add
+       * a name attribute to each element and let the handler function choose what
+       * to do based on the value of event.target.name.
+       */
+
+      class Reservation extends React.Component {
+        constructor(props) {
+          super(props)
+          this.state = {
+            isGoing: true,
+            numberOfGuests: 2,
+          }
+
+          this.handleInputChange = this.handleInputChange.bind(this)
+        }
+
+        handleInputChange(event) {
+          console.log('event.target: ', event.target)
+          const target = event.target
+          console.log('target.type: ', target.type)
+          const value = target.type === 'checkbox' ? target.checked : target.value
+          console.log('target.name: ', target.name)
+          const name = target.name
+          this.setState({
+            [name]: value,
+          })
+        }
+
+        render() {
+          return (
+            <form>
+              <label>
+                Is going:
+                <input name="isGoing" type="checkbox" checked={this.state.isGoing} onChange={this.handleInputChange} />
+              </label>
+              <br />
+              <label>
+                Number of guests:
+                <input
+                  name="numberOfGuests"
+                  type="number"
+                  value={this.state.numberOfGuests}
+                  onChange={this.handleInputChange}
+                />
+              </label>
+            </form>
+          )
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <div className="container">
+          <Reservation />
+        </div>
+      )
+    </script>
+  </body>
+</html>

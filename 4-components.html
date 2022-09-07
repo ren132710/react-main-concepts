@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Components</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Components and Props
+       * https://reactjs.org/docs/components-and-props.html
+       *
+       * component definition: function vs class
+       */
+
+      //function component, always begin component name with capital letter
+      function Welcome(props) {
+        return <h1>Hello, {props.name}</h1>
+      }
+
+      //class component, always begin component name with capital letter
+      class Welcome2 extends React.Component {
+        render() {
+          return <h1>Hello, {this.props.name}</h1>
+        }
+      }
+
+      /**
+       * How it works:
+       * We call root.render() with the <Welcome name="Sara" /> element
+       * React calls the Welcome component with {name: 'Sara'} as the props
+       * Our Welcome component returns a <h1>Hello, Sara</h1> element as the result
+       * React DOM efficiently updates the DOM to match <h1>Hello, Sara</h1>
+       */
+
+      //set variable to function component, pass name param to props
+      const element = <Welcome name="Sara" />
+      //set variable to class component, pass name param to props
+      const element2 = <Welcome2 name="Cahal" />
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <div className="container">
+          {/* render the function and class components using JSX */}
+          {element} {element2}
+        </div>
+      )
+      // root.render(element)
+      // root.render(element2)
+    </script>
+  </body>
+</html>

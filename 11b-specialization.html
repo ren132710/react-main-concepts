@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+    <title>React - Composition</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <style>
+      html,
+      body,
+      .container,
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+
+      .FancyBorder {
+        padding: 10px 10px;
+        border: 10px solid;
+      }
+
+      .FancyBorder-blue {
+        border-color: blue;
+      }
+
+      .Dialog-title {
+        margin: 0;
+        font-family: sans-serif;
+      }
+
+      .Dialog-message {
+        font-size: larger;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Composition | Specialization
+       * https://reactjs.org/docs/composition-vs-inheritance.html
+       *
+       * Sometimes we think about components as being “special cases” of other components.
+       * For example, we might say that a WelcomeDialog is a special case of Dialog.
+       * In React, this is also achieved by composition, where a more “specific” component
+       * renders a more “generic” one and configures it with props:
+       */
+
+      function FancyBorder(props) {
+        return <div className={'FancyBorder FancyBorder-' + props.color}>{props.children}</div>
+      }
+
+      function Dialog(props) {
+        return (
+          <FancyBorder color="blue">
+            <h1 className="Dialog-title">{props.title}</h1>
+            <p className="Dialog-message">{props.message}</p>
+          </FancyBorder>
+        )
+      }
+
+      //WelcomeDialog specializes Dialog by providing props title and message:
+      function WelcomeDialog() {
+        return <Dialog title="Welcome" message="Thank you for visiting our spacecraft!" />
+      }
+
+      const element = <WelcomeDialog />
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<div className="container">{element}</div>)
+    </script>
+  </body>
+</html>

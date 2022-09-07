@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Forms</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Forms - Select Tag
+       * https://reactjs.org/docs/forms.html
+       */
+
+      class FlavorForm extends React.Component {
+        constructor(props) {
+          super(props)
+          this.state = { value: 'coconut' }
+          this.handleChange = this.handleChange.bind(this)
+          this.handleSubmit = this.handleSubmit.bind(this)
+        }
+
+        handleChange(event) {
+          this.setState({ value: event.target.value })
+        }
+        handleSubmit(event) {
+          alert('Your favorite flavor is: ' + this.state.value)
+          //prevent default behavior of form submission
+          event.preventDefault()
+        }
+
+        //Note: Instead of using the selected attribute on the <option> tag
+        //React uses a value attribute on the root <select> tag
+        //This is more convenient in a controlled component because you only
+        //need to update it in one place
+        //Note: You can pass an array into the value attribute,
+        //allowing you to select multiple options in a select tag:
+        //<select multiple={true} value={['B', 'C']}>
+        render() {
+          return (
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                Pick your favorite flavor:
+                <select value={this.state.value} onChange={this.handleChange}>
+                  <option value="grapefruit">Grapefruit</option>
+                  <option value="lime">Lime</option>
+                  <option value="coconut">Coconut</option>
+                  <option value="mango">Mango</option>
+                </select>
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          )
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <div className="container">
+          <FlavorForm />
+        </div>
+      )
+    </script>
+  </body>
+</html>

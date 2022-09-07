@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Events</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Events
+       * https://reactjs.org/docs/handling-events.html
+       */
+
+      class Toggle extends React.Component {
+        constructor(props) {
+          super(props)
+          this.state = { isToggleOn: true }
+
+          //This binding is necessary to make `this` work in the callback
+          //Generally, if you refer to a method without () after it,
+          //such as onClick={this.handleClick}, you should bind that method.
+          this.handleClick = this.handleClick.bind(this)
+        }
+
+        handleClick() {
+          this.setState((prevState) => ({
+            isToggleOn: !prevState.isToggleOn,
+          }))
+        }
+
+        render() {
+          return (
+            <div className="container">
+              <button onClick={this.handleClick}>{this.state.isToggleOn ? 'ON' : 'OFF'}</button>
+            </div>
+          )
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<Toggle />)
+    </script>
+  </body>
+</html>

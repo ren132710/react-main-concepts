@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Lists & Keys</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Lists and Keys
+       * https://reactjs.org/docs/lists-and-keys.html
+       *
+       * Keys help React identify which items have changed, are added, or are removed
+       * The best way to pick a key is to use a string that uniquely identifies a list item among its siblings
+       * Most often you would use IDs from your data as keys
+       */
+      function ListItem(props) {
+        // Correct! There is no need to specify the key here:
+        // A copy of the key value is passed explicitly to the child <li>
+        return <li id={props.id}>{props.value}</li>
+      }
+
+      function NumberList(props) {
+        const numbers = props.numbers
+        //A good rule of thumb is that elements inside the map() call need keys.
+        //if you don't have a unique ID, you can use the index of the item as a key
+        //however, using index is not recommended if the order of the array may change
+        //Note: The component cannot read the key, so if you need the key value, you must pass a copy explicity
+        const listItems = numbers.map((number, index) => <ListItem key={index} value={number} id={index} />)
+        return <ul>{listItems}</ul>
+
+        /**
+         * JSX allows embedding any expression in curly braces so we could inline the map() result
+         * This can be slightly less readable but it can also be convenient in certain situations
+         * For example, if you want to render a very large list that is paged for performance
+         *
+         * like in javascript, it is up to you decide whether it is worth
+         * extracting map() to a variable for readability or not
+         */
+        // return (
+        //   <ul>
+        //     {numbers.map((number, index) => (
+        //       <ListItem key={index} value={number} id={index} />
+        //     ))}
+        //   </ul>
+        // )
+      }
+
+      const numbers = [1, 2, 3, 4, 5, 5, 5, 8]
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <div className="container">
+          <NumberList numbers={numbers} />
+        </div>
+      )
+    </script>
+  </body>
+</html>

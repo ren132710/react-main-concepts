@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Props</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Components and Props
+       * https://reactjs.org/docs/components-and-props.html
+       */
+
+      //todos could be populated from local storage
+      const todos = [
+        { id: 1, text: 'Learn React', completed: true },
+        { id: 2, text: 'Learn Firebase', completed: false },
+        { id: 3, text: 'Learn GraphQL', completed: false },
+      ]
+
+      //function component syntax
+      function TodoList(props) {
+        console.log('TodoList props', props)
+        return (
+          <ul>
+            {/* you can pass js expression as a child;
+             this is useful for rending lists of arbitrary length */}
+            {props.todos.map((todo) => (
+              //pass each todo object to the Item component
+              //be sure to assign key={todo.id} so React can track specific todos in the list
+              <Item key={todo.id} todo={todo} />
+            ))}
+          </ul>
+        )
+      }
+
+      //we can also destructure {todo} from props in the argument
+      function Item({ todo }) {
+        console.log('Item props', todo)
+        return <li>{todo.text}</li>
+      }
+
+      //pass todos as props to TodoList using JSX
+      const element = <TodoList todos={todos} />
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<div className="container">{element}</div>)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Forms</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Forms
+       * https://reactjs.org/docs/forms.html
+       * In HTML, form elements such as <input>, <textarea>, and <select>
+       * typically maintain their own state and update it based on user input.
+       * In React, mutable state is typically kept in the state property of
+       * components, and only updated with setState().
+       *
+       * We can combine the two by making the React state be the "single source of truth".
+       * Then the React component that renders a form also controls what happens in that form on subsequent user input.
+       * An input form element whose value is controlled by React in this way is called a "controlled component".
+       *
+       * Caveat
+       * It can sometimes be tedious to use controlled components, because you need to write
+       * an event handler for every way your data can change and pipe all of the input state
+       * through a React component. This can become particularly annoying when you are converting
+       * a preexisting codebase to React, or integrating a React application with a non-React library
+       *  In these situations, you might want to check out uncontrolled components,
+       * an alternative technique for implementing input forms.
+       */
+
+      //Example controlled component: alerts() name every time Submit button is clicked
+      //Since the value attribute is set on our form element, the displayed value
+      //will always be this.state.value, making the React state the source of truth.
+      //Since handleChange runs on every keystroke to update the React state,
+      //the displayed value will update as the user types.
+
+      //With a controlled component, the input's value is always driven by the React state.
+      //While this means you have to type a bit more code, you can now pass the value to
+      //other UI elements too, or reset it from other event handlers.
+      class NameForm extends React.Component {
+        constructor(props) {
+          super(props)
+          this.state = { value: '' }
+          this.handleChange = this.handleChange.bind(this)
+          this.handleSubmit = this.handleSubmit.bind(this)
+        }
+
+        handleChange(event) {
+          this.setState({ value: event.target.value })
+        }
+        handleSubmit(event) {
+          alert('A name was submitted: ' + this.state.value)
+          //prevent default behavior of form submission
+          event.preventDefault()
+        }
+
+        render() {
+          return (
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                Name:
+                <input type="text" value={this.state.value} onChange={this.handleChange} />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
+          )
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <div className="container">
+          <NameForm />
+        </div>
+      )
+    </script>
+  </body>
+</html>

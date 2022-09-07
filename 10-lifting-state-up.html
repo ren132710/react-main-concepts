@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Lifting State</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Lifting State Up
+       * https://reactjs.org/docs/lifting-state-up.html
+       *
+       * Often, several components need to reflect the same changing data
+       * We recommend lifting the shared state up to their closest common ancestor
+       */
+
+      //BoilingVerdict component accepts the celsius temperature as a prop
+      //and prints whether it is enough to boil the water
+      function BoilingVerdict(props) {
+        if (props.celsius >= 100) {
+          return <p>The water would boil.</p>
+        }
+        return <p>The water would not boil.</p>
+      }
+
+      //Calculator component renders an <input> that lets you enter the temperature
+      //and keeps its value in this.state.temperature
+      class Calculator extends React.Component {
+        constructor(props) {
+          super(props)
+          this.handleChange = this.handleChange.bind(this)
+          this.state = { temperature: '' }
+        }
+
+        handleChange(e) {
+          this.setState({ temperature: e.target.value })
+        }
+
+        render() {
+          const temperature = this.state.temperature
+          return (
+            <fieldset>
+              <legend>Enter temperature in Celsius:</legend>
+              <input value={temperature} onChange={this.handleChange} />
+              <BoilingVerdict celsius={parseFloat(temperature)} />
+            </fieldset>
+          )
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <div className="container">
+          <Calculator />
+        </div>
+      )
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+
+    <title>React - Components Reuse</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       * Components and Props
+       * https://reactjs.org/docs/components-and-props.html
+       *
+       * Components can refer to other components in their output
+       * For example, we can create an App component
+       * that renders the Welcome component many times
+       */
+
+      function Welcome(props) {
+        return <h1>Hello, {props.name}</h1>
+      }
+
+      /**
+       * Typically, new React apps have a single App component at the very top
+       * However, if you integrate React into an existing app, you might start
+       * bottom-up with a small component like Button and gradually work your way
+       * to the top of the view hierarchy.
+       */
+      function App() {
+        return (
+          <div>
+            <Welcome name="Sara" />
+            <Welcome name="Cahal" />
+            <Welcome name="Edite" />
+          </div>
+        )
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'))
+    </script>
+  </body>
+</html>
