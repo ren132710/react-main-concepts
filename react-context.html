@@ -92,6 +92,7 @@
 
         const [lang, setLang] = React.useState('en')
 
+        // TODO: setLang() does not want to be called directly, so nest inside a user defined function
         function onLangChange(value) {
           setLang(value)
         }
