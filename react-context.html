@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Context</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      * {
+        font-family: sans-serif;
+        color: hsl(200, 100%, 10%);
+      }
+
+      body {
+        box-sizing: border-box;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 94%;
+        margin-top: 1rem;
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 0;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        text-align: center;
+        padding-top: 1rem;
+      }
+
+      .current-weather-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        border: 1px solid;
+        border-radius: 0.3rem;
+        padding: 0.75em;
+        height: 100px;
+      }
+
+      .label::after {
+        content: ': ';
+      }
+
+      .value {
+        color: hsl(200, 100%, 30%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      /**
+       *  typically this would be imported from external file
+       */
+      const Translations = {
+        1: {en: 'Current Weather', fr: 'Météo Actuelle', sv: 'Vädret Just Nu'},
+        2: {en: 'Feels like', fr: 'Ressenti', sv: 'Känns som'},
+        3: {en: 'Humidity', fr: 'Humidité', sv: 'Luftfuktighet'},
+        4: {en: 'Wind', fr: 'Vent', sv: 'Vind'},
+        5: {en: 'Visibility', fr: 'Visibilité', sv: 'Sikt'},
+      }
+
+      function getTranslation(index, lang) {
+        return Translations[index][lang]
+      }
+
+      // define user prefs context
+      const PrefsContext = React.createContext()
+
+      function App() {
+        /**
+         * Ideally, we would fetch prefs from local storage and initialize state
+         *
+         * const [prefs, setPrefs] = React.useState(
+         *  JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || []
+         * )
+         */
+
+        const [lang, setLang] = React.useState('en')
+
+        function onLangChange(value) {
+          setLang(value)
+        }
+
+        return (
+          <div className='container'>
+            <PrefsContext.Provider value={{lang}}>
+              <SectionTitle />
+              <Weather />
+              <br />
+              <LangSelect onLangChange={onLangChange} />
+            </PrefsContext.Provider>
+          </div>
+        )
+      }
+
+      /**
+       * In a non-flat file context, we would import getTranslation and pass it
+       * as a prop to SectionTitle, Weather and LangSelect
+       */
+
+      function SectionTitle() {
+        return (
+          // the context Consumer component expects a single child which must be a function
+          <h1 className='section-title'>
+            <PrefsContext.Consumer>
+              {({lang}) => getTranslation(1, lang)}
+            </PrefsContext.Consumer>
+          </h1>
+        )
+      }
+
+      function Weather() {
+        return (
+          <PrefsContext.Consumer>
+            {({lang}) => (
+              <div className='current-weather-container'>
+                <div>
+                  <span className='label'> {getTranslation(2, lang)}</span>
+                  <span className='value'>10°C</span>
+                </div>
+                <div>
+                  <span className='label'>{getTranslation(3, lang)}</span>
+                  <span className='value'>30%</span>
+                </div>
+                <div>
+                  <span className='label'>{getTranslation(4, lang)}</span>
+                  <span className='value'>10 km/h</span>
+                </div>
+                <div>
+                  <span className='label'>{getTranslation(5, lang)}</span>
+                  <span className='value'>10 km</span>
+                </div>
+              </div>
+            )}
+          </PrefsContext.Consumer>
+        )
+      }
+
+      /**
+       * It is often necessary to update the context from a component that is nested somewhere
+       * deeply in the component tree. In this case you can pass a function down through the
+       * context to allow consumers to update the context:
+       *
+       * e.g., onLangChange
+       */
+      function LangSelect({onLangChange}) {
+        // alternately, we can extract skip using the Consumer tag and simply extract the
+        // variable we want from context
+        const {lang} = React.useContext(PrefsContext)
+
+        return (
+          <select
+            value={lang}
+            onChange={(e) => {
+              onLangChange(e.target.value)
+            }}>
+            <option value='en'>English</option>
+            <option value='fr'>Français</option>
+            <option value='sv'>Svenska</option>
+          </select>
+        )
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      )
+    </script>
+  </body>
+</html>
