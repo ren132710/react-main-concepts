@@ -5,8 +5,12 @@
     <link rel="stylesheet" href="index.css" />
 
     <title>React - Component with JSX Child Callback</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
   </head>
 
@@ -30,6 +34,7 @@
           //props.children is the passed callback function which displays
           //a div and index number 'i' for each iteration
           items.push(props.children(i))
+          // console.log('items: ', items)
         }
         return <div>{items}</div>
       }
@@ -48,7 +53,7 @@
 
       const element = <ListOfTenThings numTimes={numTimes} />
       const root = ReactDOM.createRoot(document.getElementById('root'))
-      root.render(<div className="container">{element}</div>)
+      root.render(<div className='container'>{element}</div>)
     </script>
   </body>
 </html>

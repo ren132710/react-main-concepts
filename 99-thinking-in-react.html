@@ -5,9 +5,14 @@
     <link rel="stylesheet" href="index.css" />
 
     <title>React - Props</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
   </head>
 
   <body>
@@ -18,12 +23,12 @@
        * https://reactjs.org/docs/thinking-in-react.html
        */
       const PRODUCTS = [
-        { category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football' },
-        { category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball' },
-        { category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball' },
-        { category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch' },
-        { category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5' },
-        { category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7' },
+        {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+        {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+        {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+        {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+        {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+        {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'},
       ]
 
       class ProductCategoryRow extends React.Component {
@@ -31,7 +36,7 @@
           const category = this.props.category
           return (
             <tr>
-              <th colSpan="2">{category}</th>
+              <th colSpan='2'>{category}</th>
             </tr>
           )
         }
@@ -40,7 +45,11 @@
       class ProductRow extends React.Component {
         render() {
           const product = this.props.product
-          const name = product.stocked ? product.name : <span style={{ color: 'red' }}>{product.name}</span>
+          const name = product.stocked ? (
+            product.name
+          ) : (
+            <span style={{color: 'red'}}>{product.name}</span>
+          )
 
           return (
             <tr>
@@ -67,7 +76,9 @@
               return
             }
             if (product.category !== lastCategory) {
-              rows.push(<ProductCategoryRow category={product.category} key={product.category} />)
+              rows.push(
+                <ProductCategoryRow category={product.category} key={product.category} />
+              )
             }
             rows.push(<ProductRow product={product} key={product.name} />)
             lastCategory = product.category
@@ -106,14 +117,18 @@
           return (
             <form>
               <input
-                type="text"
-                placeholder="Search..."
+                type='text'
+                placeholder='Search...'
                 value={this.props.filterText}
                 onChange={this.handleFilterTextChange}
               />
               <p>
-                <input type="checkbox" checked={this.props.inStockOnly} onChange={this.handleInStockChange} /> Only show
-                products in stock
+                <input
+                  type='checkbox'
+                  checked={this.props.inStockOnly}
+                  onChange={this.handleInStockChange}
+                />{' '}
+                Only show products in stock
               </p>
             </form>
           )
@@ -165,7 +180,7 @@
 
       const root = ReactDOM.createRoot(document.getElementById('root'))
       root.render(
-        <div className="container">
+        <div className='container'>
           <FilterableProductTable products={PRODUCTS} />
         </div>
       )
